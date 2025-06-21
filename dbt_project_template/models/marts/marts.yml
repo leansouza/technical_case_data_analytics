@@ -1,4 +1,126 @@
 version: 2
 
 models:
-  
+  - name: mart_customer_analytics
+    description: "Análise completa de clientes com segmentação RFM"
+    columns:
+      - name: customer_id
+        description: "ID único do cliente"
+        tests:
+          - unique
+          - not_null
+      - name: customer_segment
+        description: "Segmento do cliente baseado em RFM"
+        tests:
+          - accepted_values:
+              values: ['Champions', 'Loyal Customers', 'At Risk', 'Cant Lose', 'About to Sleep', 'Need Attention', 'Lost']
+      - name: estimated_clv
+        description: "Customer Lifetime Value estimado"
+      - name: rfm_score
+        description: "Score RFM (1-5)"
+        tests:
+          - accepted_values:
+              values: [1, 2, 3, 4, 5]
+      - name: customer_value_tier
+        description: "Nível de valor do cliente"
+        tests:
+          - accepted_values:
+              values: ['VIP', 'Premium', 'Regular', 'Occasional', 'New']
+
+  - name: mart_sales_performance
+    description: "Performance de vendas por data e marca"
+    columns:
+      - name: sale_date
+        description: "Data da venda"
+        tests:
+          - not_null
+      - name: brand_id
+        description: "ID da marca"
+        tests:
+          - not_null
+      - name: total_revenue
+        description: "Receita total"
+        tests:
+          - not_null
+      - name: conversion_rate
+        description: "Taxa de conversão (%)"
+        tests:
+          - accepted_values:
+              values: [0, 25, 50, 75, 100]
+      - name: revenue_7d_avg
+        description: "Média móvel de 7 dias da receita"
+      - name: revenue_30d_avg
+        description: "Média móvel de 30 dias da receita"
+      - name: performance_score
+        description: "Score de performance da marca"
+
+  - name: mart_product_analytics
+    description: "Análise completa de produtos com métricas de performance"
+    columns:
+      - name: product_id
+        description: "ID único do produto"
+        tests:
+          - unique
+          - not_null
+      - name: product_name
+        description: "Nome do produto"
+        tests:
+          - not_null
+      - name: performance_segment
+        description: "Segmento de performance do produto"
+        tests:
+          - accepted_values:
+              values: ['Top Performer', 'High Performer', 'Medium Performer', 'Low Performer', 'Non-Performer']
+      - name: revenue_segment
+        description: "Segmento por receita"
+        tests:
+          - accepted_values:
+              values: ['Top Revenue', 'High Revenue', 'Medium Revenue', 'Low Revenue', 'No Revenue']
+      - name: margin_segment
+        description: "Segmento por margem"
+        tests:
+          - accepted_values:
+              values: ['High Margin', 'Medium Margin', 'Low Margin', 'No Margin']
+      - name: product_strategy_segment
+        description: "Segmento estratégico do produto"
+        tests:
+          - accepted_values:
+              values: ['Star Product', 'Cash Cow', 'Volume Product', 'Niche Product', 'Question Mark', 'Regular Product']
+
+  - name: mart_brand_performance
+    description: "Performance completa por marca com insights estratégicos"
+    columns:
+      - name: brand_id
+        description: "ID único da marca"
+        tests:
+          - unique
+          - not_null
+      - name: brand_name
+        description: "Nome da marca"
+        tests:
+          - not_null
+      - name: performance_segment
+        description: "Segmento de performance da marca"
+        tests:
+          - accepted_values:
+              values: ['Top Performer', 'High Performer', 'Medium Performer', 'Low Performer', 'Emerging']
+      - name: size_segment
+        description: "Segmento por tamanho da marca"
+        tests:
+          - accepted_values:
+              values: ['Large Brand', 'Medium Brand', 'Small Brand', 'Micro Brand']
+      - name: revenue_segment
+        description: "Segmento por receita"
+        tests:
+          - accepted_values:
+              values: ['Enterprise', 'Large', 'Medium', 'Small', 'Micro']
+      - name: brand_health_score
+        description: "Score de saúde da marca"
+        tests:
+          - accepted_values:
+              values: ['Excellent', 'Good', 'Average', 'Below Average', 'Poor']
+      - name: recommended_strategy
+        description: "Estratégia recomendada para a marca"
+        tests:
+          - accepted_values:
+              values: ['Maintain Leadership', 'Scale Operations', 'Optimize Performance', 'Improve Efficiency', 'Rebuild Strategy', 'Monitor and Adjust']  
