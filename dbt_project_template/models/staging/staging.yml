@@ -2,35 +2,124 @@ version: 2
 
 models:
   - name: stg_customers
-    description: Standardized customer data from source
+    description: "Dados de clientes limpos e padronizados"
     columns:
       - name: customer_id
-        description: Primary key
+        description: "ID único do cliente"
         tests:
           - unique
           - not_null
-      - name: first_name
-        description: Customer first name
-      - name: last_name
-        description: Customer last name
       - name: email
-        description: Customer email address
+        description: "Email do cliente"
         tests:
           - not_null
-      - name: country
-        description: Customer country
-      - name: brand_id
-        description: Foreign key to brands
+          - unique
+      - name: is_valid_email
+        description: "Flag indicando se o email é válido"
         tests:
-          - relationships:
-              to: ref('stg_brands')
-              field: brand_id
+          - accepted_values:
+              values: [true, false]
+      - name: full_name
+        description: "Nome completo do cliente"
+        tests:
+          - not_null
+
+  - name: stg_orders
+    description: "Dados de pedidos limpos e validados"
+    columns:
+      - name: order_id
+        description: "ID único do pedido"
+        tests:
+          - unique
+          - not_null
+      - name: total_amount
+        description: "Valor total do pedido"
+        tests:
+          - not_null
+      - name: is_valid_amount
+        description: "Flag indicando se o valor é válido"
+        tests:
+          - accepted_values:
+              values: [true, false]
+      - name: net_amount
+        description: "Valor líquido do pedido (total - desconto)"
+        tests:
+          - not_null
 
   - name: stg_products
-    description: Standardized product data from source
+    description: "Dados de produtos limpos e com métricas calculadas"
     columns:
       - name: product_id
-        description: Primary key
+        description: "ID único do produto"
         tests:
           - unique
           - not_null
+      - name: price
+        description: "Preço do produto"
+        tests:
+          - not_null
+      - name: margin_percentage
+        description: "Percentual de margem calculado"
+      - name: is_available_for_sale
+        description: "Flag indicando se o produto está disponível"
+        tests:
+          - accepted_values:
+              values: [true, false]
+
+  - name: stg_order_items
+    description: "Itens de pedido limpos e validados"
+    columns:
+      - name: order_item_id
+        description: "ID único do item"
+        tests:
+          - unique
+          - not_null
+      - name: quantity
+        description: "Quantidade do item"
+        tests:
+          - not_null
+      - name: is_valid_quantity
+        description: "Flag indicando se a quantidade é válida"
+        tests:
+          - accepted_values:
+              values: [true, false]
+      - name: net_price
+        description: "Preço líquido do item (total - desconto)"
+        tests:
+          - not_null
+
+  - name: stg_brands
+    description: "Dados de marcas limpos e padronizados"
+    columns:
+      - name: brand_id
+        description: "ID único da marca"
+        tests:
+          - unique
+          - not_null
+      - name: brand_name
+        description: "Nome da marca"
+        tests:
+          - not_null
+      - name: is_valid_website
+        description: "Flag indicando se o website é válido"
+        tests:
+          - accepted_values:
+              values: [true, false]
+
+  - name: stg_product_categories
+    description: "Categorias de produtos limpas e padronizadas"
+    columns:
+      - name: category_id
+        description: "ID único da categoria"
+        tests:
+          - unique
+          - not_null
+      - name: category_name
+        description: "Nome da categoria"
+        tests:
+          - not_null
+      - name: is_active_category
+        description: "Flag indicando se a categoria está ativa"
+        tests:
+          - accepted_values:
+              values: [true, false]

@@ -2,41 +2,131 @@ version: 2
 
 sources:
   - name: raw
-    description: Raw data from e-commerce system
-    schema: raw
+    description: "Dados brutos do sistema de e-commerce"
     tables:
       - name: customers
-        description: Customer information
+        description: "Dados de clientes"
         columns:
           - name: customer_id
-            description: Primary key
-
-      - name: products
-        description: Product information
-        columns:
-          - name: product_id
-            description: Primary key
-
+            description: "ID único do cliente"
+            tests:
+              - unique
+              - not_null
+          - name: email
+            description: "Email do cliente"
+            tests:
+              - not_null
+              - unique
+          - name: first_name
+            description: "Nome do cliente"
+            tests:
+              - not_null
+          - name: last_name
+            description: "Sobrenome do cliente"
+            tests:
+              - not_null
+          - name: brand_id
+            description: "ID da marca associada"
+            tests:
+              - not_null
+      
       - name: orders
-        description: Order header information
+        description: "Dados de pedidos"
         columns:
           - name: order_id
-            description: Primary key
-
+            description: "ID único do pedido"
+            tests:
+              - unique
+              - not_null
+          - name: customer_id
+            description: "ID do cliente"
+            tests:
+              - not_null
+          - name: order_date
+            description: "Data do pedido"
+            tests:
+              - not_null
+          - name: total_amount
+            description: "Valor total do pedido"
+            tests:
+              - not_null
+          - name: brand_id
+            description: "ID da marca"
+            tests:
+              - not_null
+      
+      - name: products
+        description: "Dados de produtos"
+        columns:
+          - name: product_id
+            description: "ID único do produto"
+            tests:
+              - unique
+              - not_null
+          - name: product_name
+            description: "Nome do produto"
+            tests:
+              - not_null
+          - name: price
+            description: "Preço do produto"
+            tests:
+              - not_null
+          - name: brand_id
+            description: "ID da marca"
+            tests:
+              - not_null
+          - name: category_id
+            description: "ID da categoria"
+            tests:
+              - not_null
+      
       - name: order_items
-        description: Order line items
+        description: "Itens dos pedidos"
         columns:
           - name: order_item_id
-            description: Primary key
-
-      - name: product_categories
-        description: Product category information
-        columns:
-          - name: category_id
-            description: Primary key
-
+            description: "ID único do item"
+            tests:
+              - unique
+              - not_null
+          - name: order_id
+            description: "ID do pedido"
+            tests:
+              - not_null
+          - name: product_id
+            description: "ID do produto"
+            tests:
+              - not_null
+          - name: quantity
+            description: "Quantidade do item"
+            tests:
+              - not_null
+          - name: total_price
+            description: "Preço total do item"
+            tests:
+              - not_null
+      
       - name: brands
-        description: Brand information
+        description: "Dados de marcas"
         columns:
           - name: brand_id
-            description: Primary key
+            description: "ID único da marca"
+            tests:
+              - unique
+              - not_null
+          - name: brand_name
+            description: "Nome da marca"
+            tests:
+              - not_null
+      
+      - name: product_categories
+        description: "Categorias de produtos"
+        columns:
+          - name: category_id
+            description: "ID único da categoria"
+            tests:
+              - unique
+              - not_null
+          - name: category_name
+            description: "Nome da categoria"
+            tests:
+              - not_null
